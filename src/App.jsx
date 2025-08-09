@@ -4,16 +4,17 @@ import apiFetch from "./customFetch/api";
 import umbrella from "./assets/umbrella.png";
 import outdoor from "./assets/run.png";
 import clothing from "./assets/laundry.png";
-import background from './assets/background.jpg';
+import background from "./assets/background.jpg";
 
 function App() {
   const apiKey = "8ad4d967676a70027224822fcc0c33a0";
-  const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+  const apiUrl =
+    "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
 
   const [temp, setTemp] = useState("");
   const [icon, setIcon] = useState("");
-  const [country, setCountry] = useState("IN");
-  const [city, setCity] = useState("Gorakhpur");
+  const [country, setCountry] = useState("");
+  const [city, setCity] = useState("Doha");
   const [feelslike, setFeelslike] = useState();
   const [cityInput, setCityInput] = useState("");
   const [pressure, setPressure] = useState();
@@ -30,10 +31,15 @@ function App() {
   const [umbrellaIndi, setumbrellaIndi] = useState();
   const [good, setGood] = useState("");
   const [cloth, setCloth] = useState("");
+  const [forecast, setForecast] = useState([]);
+
 
   const weather = async (cityName = city) => {
     try {
-      const response = await fetch(`https://backend-api1-k68w.onrender.com/api?city=${city}`);
+      setProcess(true)
+      const response = await fetch(
+        `https://backend-api1-k68w.onrender.com/api?city=${cityName}`
+      );
       const data = await response.json();
       setProcess(true);
       setIcon(data.weather[0].icon);
@@ -58,7 +64,9 @@ function App() {
 
   const fetchWeatherData = async (lat, lon) => {
     try {
-      const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`);
+      const response = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`
+      );
       const data = await response.json();
       setProcess(true);
       setIcon(data.weather[0].icon);
@@ -81,13 +89,16 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    weather();
-  }, []);
+ useEffect(() => {
+  weather();
+  fetchForecast();
+}, []);
+
 
   function findCity() {
     if (cityInput.trim()) {
       weather(cityInput);
+      fetchForecast(cityInput)
       setCityInput("");
     }
   }
@@ -95,6 +106,7 @@ function App() {
   function handleKeyDown(e) {
     if (e.key === "Enter") {
       weather(cityInput);
+      fetchForecast(cityInput)
       setCityInput("");
     }
   }
@@ -114,17 +126,16 @@ function App() {
       setGood("Good");
       setNeed("No need");
     }
-  }, [description]);
 
-  useEffect(() => {
-    if (temp > 20) {
+     if (temp > 20) {
       setCloth("Shorts");
     } else if (temp >= 10) {
       setCloth("Hoodie");
     } else {
       setCloth("Sweaters");
     }
-  }, [temp]);
+  }, [description,temp]);
+
 
   // useEffect(() => {
   //   if (navigator.geolocation) {
@@ -142,7 +153,7 @@ function App() {
 
   const handleCurrentLocation = () => {
     if (navigator.geolocation) {
-         navigator.geolocation.getCurrentPosition(
+      navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
           fetchWeatherData(latitude, longitude);
@@ -155,14 +166,41 @@ function App() {
     }
   };
 
+  // Set the 5 day forecast here ---- 
+  const fetchForecast = async (cityName = city) => {
+  try {
+    const res = await fetch(
+      `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${apiKey}&units=metric`
+    );
+    const data = await res.json();
+
+    // Get first 5 timestamps (3-hour intervals from OpenWeather)
+    const nextFive = data.list.slice(0, 5).map(item => ({
+      time: new Date(item.dt * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      temp: Math.round(item.main.temp),
+      icon: item.weather[0].icon,
+      wind: Math.round(item.wind.speed)
+    }));
+
+    setForecast(nextFive);
+  } catch (err) {
+    console.log("Forecast fetch error", err);
+  }
+};
+
 
   return (
     <div className="app">
       <div className="dashboard-container">
         <main className="content">
           {/* Search Section */}
-          {process && <p className="processbar">Processing...</p>}
+
           <div className="search-section">
+            {process && (
+              <div className="spinner-container">
+                <div className="spinner"></div>
+              </div>
+            )}
             <input
               onKeyDown={handleKeyDown}
               type="text"
@@ -170,19 +208,20 @@ function App() {
               value={cityInput}
               onChange={(e) => setCityInput(e.target.value)}
             />
-            <button className="search-button" onClick={findCity}><i class="ri-search-line"></i>  </button>
-            <button onClick={handleCurrentLocation} className= "location" ><i class="ri-map-pin-line"></i> <p>Current Location</p></button>
+            <button className="search-button" onClick={findCity}>
+              <i class="ri-search-line"></i>{" "}
+            </button>
+            <button onClick={handleCurrentLocation} className="location">
+              <i class="ri-map-pin-line"></i> <p>Current Location</p>
+            </button>
           </div>
 
           {inputError && (
             <p className="error-message">
               City not found. Please check Internet Connection!
             </p>
-          )} 
-           {locationError && (
-            <p className="error-message">⚠️ {locationError}</p>
           )}
-
+          {locationError && <p className="error-message">⚠️ {locationError}</p>}
 
           {/* Weather Info */}
           <div className="weather-info">
@@ -230,7 +269,9 @@ function App() {
             <h3 className="chart-title">Temperature Trends</h3>
 
             <div className="mainBox">
-              <h4>Today's Recommendation</h4>
+
+            <div className="recomend">
+               <h4>Today's Recommendation</h4>
               <div className="recommendation-box">
                 <div className="box1">
                   <div className="miniBox1">
@@ -281,7 +322,8 @@ function App() {
                         <div
                           className="indi"
                           style={{
-                            backgroundColor: good == "Poor" ? "orange" : "green",
+                            backgroundColor:
+                              good == "Poor" ? "orange" : "green",
                           }}
                         ></div>
                         <span>{cloth}</span>
@@ -292,14 +334,37 @@ function App() {
                     href="https://www.msn.com/en-in/weather/life/in-Gorakhpur,Uttar-Pradesh?loc=eyJsIjoiR29yYWtocHVyIiwiciI6IlV0dGFyIFByYWRlc2giLCJjIjoiSW5kaWEiLCJpIjoiSU4iLCJ0IjoxMDIsImciOiJlbi1pbiIsIngiOiI4My4zNzM3IiwieSI6IjI2Ljc2MDgifQ%3D%3D&weadegreetype=C&ocid=winp2fptaskbar&cvid=83494f7e8d8c4a989c845edf10f78e1a"
                     rel="noopener noreferrer"
                     style={{ textDecoration: "none", color: "inherit" }}
-                    >
+                  >
                     <div className="miniBox4">
                       <p>See more</p>
                       <i className="ri-arrow-right-line"></i>
                     </div>
                   </a>
-
                 </div>
+              </div>
+            </div>
+
+              {/* Hourly Forecast */}
+              <div className="forecast">
+                <div className="hourly-forecast">
+                <div className="forecast-cards">
+                  {forecast.map((item, index) => (
+                    <div className="forecast-card" key={index}>
+                      <p className="time">{item.time}</p>
+                      <img
+                        src={`https://openweathermap.org/img/wn/${item.icon}.png`}
+                        alt="Weather icon"
+                        className="forecast-icon"
+                      />
+                      <p className="temp">{item.temp}°C</p>
+                    
+                      <i class="ri-windy-line"></i>
+            
+                      <p className="wind">{item.wind} km/h</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
               </div>
             </div>
           </div>
