@@ -466,6 +466,13 @@ body::-webkit-scrollbar {
 
 @media (max-width:550px) {
 
+.content{
+    margin-left: 5px;
+    margin-right: 5px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
 .temperature {
     font-size: 48px;
 }
@@ -505,9 +512,11 @@ body::-webkit-scrollbar {
 }
 
 .recommendation-box{
-  width: 89vw;
+  width: 97.4vw;
   height: 140px;
-  margin: 5px;
+  margin-top: 5px;
+  margin-left: 0px;
+  margin-right: 0px;
   font-size: 13px;
 }
 
@@ -551,16 +560,24 @@ body::-webkit-scrollbar {
   display: grid;
 }
 
+.hourly-forecast::-webkit-scrollbar{
+  display: none;
+  overflow-x: hidden; /* hides horizontal scrollbar */
+}
+
 .forecast::-webkit-scrollbar {
   display: none;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
  .forecast {
     height: auto;
-    width: 89vw;
+    width: 97.4vw;
     margin-top: 15px;
   }
 
+   
   .forecast-cards {
     display: flex;
     gap: 10px;
