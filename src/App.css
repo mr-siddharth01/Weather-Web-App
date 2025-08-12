@@ -94,11 +94,7 @@ body::-webkit-scrollbar {
   font-weight: bold;
   color: var(--temperatureColor);
 }
-@media (max-width: 400px) {
-  .temperature {
-    font-size: 48px;
-  }
-}
+
 .feels-like {
   font-size: 18px;
   color: var(--feelsLike);
@@ -366,75 +362,6 @@ body::-webkit-scrollbar {
   background-color: red;
 }
 
-@media (max-width:550px) {
-
-.chart-section{
-  width: 100%;
-  right: 0; 
-  padding: 0; 
-}
-
-
-.indicator{
-  display: flex;
-  gap: 5px;
-}
-
-.mainBox h4{
-  position: relative;
-  right: 80px; 
-}
-
-.deal{
-  width: 250px;
-  position: relative;
-  left: 20px;
-}
-
-.deal h1{
-  font-size: 5.5vw;
-}
-
-.temperature-section{
-  position: relative;
-  bottom: 20px;
-}
-
-.search-section .search-button{
-  height: 38px;
-  width: 40px;
-  border-radius: 50%;
-}
-
-.search-section .location{
-  font-size: 14px;
-  font-weight: 600;
-  height: 38px;
-  width: 38px;
-  border-radius: 50%;
-  background-color: green;
-  display: flex;
-  gap: 5px;
-  position: relative;
-  left: 5vw;
-}
-
-.search-section .location p{
- display: none;
-}
-
-.search-section input{
-  width: 50vw
-}
-
-.spinner{
-  display: none;
-}
-
-
-
-
-}
 
 .weather-icon {
   width: 120px;
@@ -533,3 +460,210 @@ body::-webkit-scrollbar {
   color: #ccc;
 }
 
+
+
+/* Mobile Resopnsive */
+
+@media (max-width:550px) {
+
+.temperature {
+    font-size: 48px;
+}
+
+.extra-widgets{
+  font-size: 14px;
+}
+
+.chart-section{
+  width: 100%;
+  right: 0; 
+  padding: 0; 
+}
+
+
+.indicator{
+  display: flex;
+  gap: 5px;
+}
+
+.mainBox h4{
+  position: relative;
+  right: 80px; 
+}
+
+.deal{
+  width: 250px;
+  position: relative;
+  left: 20px;
+}
+
+.deal h1{
+  font-size: 5.5vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.recommendation-box{
+  width: 89vw;
+  height: 140px;
+  margin: 5px;
+  font-size: 13px;
+}
+
+.temperature-section{
+  position: relative;
+  bottom: 20px;
+}
+
+.search-section .search-button{
+  height: 38px;
+  width: 40px;
+  border-radius: 50%;
+}
+
+.search-section .location{
+  font-size: 14px;
+  font-weight: 600;
+  height: 38px;
+  width: 38px;
+  border-radius: 50%;
+  background-color: green;
+  display: flex;
+  gap: 5px;
+  position: relative;
+  left: 5vw;
+}
+
+.search-section .location p{
+ display: none;
+}
+
+.search-section input{
+  width: 50vw
+}
+
+.spinner{
+  display: none;
+}
+
+.mainBox{
+  display: grid;
+}
+
+.forecast::-webkit-scrollbar {
+  display: none;
+}
+
+ .forecast {
+    height: auto;
+    width: 89vw;
+    margin-top: 15px;
+  }
+
+  .forecast-cards {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+    scroll-snap-type: x mandatory;
+  }
+
+  .forecast-card {
+    min-width: 90px;
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+
+  .forecast-card .time {
+    font-size: 12px;
+  }
+
+  .forecast-card .temp {
+    font-size: 14px;
+  }
+
+  .wind {
+    font-size: 12px;
+  }
+
+
+}
+
+/* === Mobile improvements for Recommendation & Forecast === */
+/* @media (max-width: 768px) { 
+
+
+  .mainBox {
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+  }
+
+  .recommendation-box {
+    width: 100%;
+    height: auto;
+    flex-direction: column;
+    padding: 15px;
+  }
+
+  .box1, .box2 {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .miniBox1, .miniBox2, .miniBox3, .miniBox4 {
+    height: auto;
+    padding: 10px;
+    justify-content: flex-start;
+  }
+
+  .logobox {
+    width: 35px;
+    height: 35px;
+  }
+
+  
+  .forecast {
+    height: auto;
+    margin-top: 15px;
+  }
+
+  .forecast-cards {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+    scroll-snap-type: x mandatory;
+  }
+
+  .forecast-card {
+    min-width: 90px;
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .mainBox h4 {
+    margin-left: 0;
+    right: 0;
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .forecast-card .time {
+    font-size: 12px;
+  }
+
+  .forecast-card .temp {
+    font-size: 14px;
+  }
+
+  .wind {
+    font-size: 12px;
+  }
+}
+ */
