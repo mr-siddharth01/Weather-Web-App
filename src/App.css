@@ -584,12 +584,14 @@ body::-webkit-scrollbar {
     overflow-x: auto;
     padding-bottom: 5px;
     scroll-snap-type: x mandatory;
+    cursor: pointer;
   }
 
   .forecast-card {
     min-width: 90px;
     scroll-snap-align: start;
     flex-shrink: 0;
+    cursor: pointer;
   }
 
   .forecast-card .time {

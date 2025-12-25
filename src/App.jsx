@@ -4,12 +4,11 @@ import apiFetch from "./customFetch/api";
 import umbrella from "./assets/umbrella.png";
 import outdoor from "./assets/run.png";
 import clothing from "./assets/laundry.png";
-import background from "./assets/background.jpg";
+
 
 function App() {
   const apiKey = "8ad4d967676a70027224822fcc0c33a0";
-  const apiUrl =
-    "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+  const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
 
   const [temp, setTemp] = useState("");
   const [icon, setIcon] = useState("");
@@ -359,7 +358,7 @@ function App() {
                       <p className="temp">{item.temp}°C</p>
                     
                       <i class="ri-windy-line"></i>
-            
+                    
                       <p className="wind">{item.wind} km/h</p>
                     </div>
                   ))}
