@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./app.css";
+import "./App.css";
 import apiFetch from "./customFetch/api";
 import umbrella from "./assets/umbrella.png";
 import outdoor from "./assets/run.png";
